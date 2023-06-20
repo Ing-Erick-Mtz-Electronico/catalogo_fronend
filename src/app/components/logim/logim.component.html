@@ -1,1 +1,37 @@
-<p>logim works!</p>
+  <div style="margin-top:20px;" class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <h2>Inicio de Sesión</h2>
+
+      <div class="alert alert-danger" *ngIf="error != '' ">        
+        <p>{{error}}</p>
+      </div>
+      <form #loginForm = "ngForm" (ngSubmit)="login(loginForm)" class="margin" novalidate>      
+
+        <div class="form-group">
+          <label for="name" class="form-label">Nombre de Usuario</label>
+          <input type="text" class="form-control" name="username" placeholder="Nombre de Usuario" [(ngModel)]="user.username" #username="ngModel" required>  
+          <div *ngIf ="username.invalid && (username.dirty || username.touched ||  loginForm.submitted )">
+            <label class="text-danger" >
+                El nombre es requerido
+            </label>                       
+          </div>        
+        </div>
+
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" class="form-control" name="password" placeholder="Contraseña" [(ngModel)]="user.password" #password="ngModel" required/>
+          <div *ngIf ="password.invalid && (password.dirty || password.touched ||  loginForm.submitted )">
+            <label class="text-danger" >
+                La contraseña es requerida
+            </label>                       
+           </div> 
+        </div>      
+  
+        <input type="submit" class="btn btn-primary" value="Iniciar Sesión">
+  
+      </form>
+  
+    </div>
+    <div class="col-md-2"></div>
+  </div> 

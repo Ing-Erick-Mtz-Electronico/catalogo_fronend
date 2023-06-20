@@ -1,21 +1,83 @@
-<div>
-    <ul>
-        <li>
-            <div>
-                <div>
-                    <div>
-                        <a href="">
-                            <img src="" alt="">
-                            <div>
-                                <h6>fecha de publicacion</h6>
-                            </div>
-                        </a>
+<a href="/login">Iniciar sesión</a>
+
+<div class="container">
+    <img class="banner" src="assets/image/NOMBRE.png" alt="">
+</div>
+
+<div class="bodyCarrusel">
+    <div class="textMasReciente">
+        <h3>Títulos Recientemente subidos </h3>
+    </div>
+    <div class="containerCarrusel">
+        
+        <div class="col"></div>
+        <div id="carouselTarget" class="carousel slide" data-bs-ride="carousel" >
+            
+            <div class="carousel-inner">
+                <div class="carousel-item" data-bs-interval="1500" [ngClass]="{'active':item==0}" *ngFor="let item of [0,1,2,3,4,5,6,7,8,9,10]">
+                    <a href="/">
+                        <img src="assets/image/catalogo2.png" class="imageItem" alt="image">
+                    </a>
+                </div>
+                
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselTarget" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselTarget" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+
+<div class="containerBody">
+    <div class="containertitleAdquisicion">
+        <h3 class="titleAdquisicion">Todas nuestras adquisiciones literarias físicas </h3>
+    </div>
+    <ul class="listCatalog">
+        <li *ngFor="let item of items" class="itemList">
+            
+            <div class="cardPortada">
+                <a class="imagePortada" href="/">
+                    <img class="images" src="assets/image/catalogo.jpg" alt="image">
+                    <div class="info">
+                        <h6 class="text"> Los vientos del liberalismo en el caribe : efectos, transformaciones e intercambios en la transición del siglo XVIII al XIX </h6>
+                        <h6 class="time">09/05/2023</h6>
+                    </div>
+                </a>
+            </div>
+            <div class="cardInformation">
+                <div class="labels">
+                    <div class="values ">
+                        <label>Autor:</label>
+                        <span class="autor"> Antonio Vidal Ortega, Raúl Román Romero, coordinadores Raúl Román Romero, coordinadores</span>
+                    </div>
+                    <div class="values">
+                        <label>Tipo:</label>
+                        <span> Libro</span>
+                    </div>
+                    
+                    <div class="values">
+                        <label>Signatura:</label>
+                        <span> 869.3 S243b</span>
+                    </div>
+                    
+                    <div class="values">
+                        <label>ISBN:</label>
+                        <span> 842040053X</span>
                     </div>
                 </div>
-                <div>
-
+                <div class="texts botton"> 
+                    <a class="" href="https://unimagdalena.primo.exlibrisgroup.com/discovery/fulldisplay?docid=alma99804765007076&context=L&vid=57UMA_INST:UMA&lang=es&search_scope=FISICO&adaptor=Local%20Search%20Engine&tab=EnBiblioteca&query=any,contains,el%20manuscrito,AND&mode=advanced&pfilter=rtype,exact,books,AND&offset=0">
+                    Ver mas delalles
+                    </a>
                 </div>
             </div>
         </li>
+        
     </ul>
 </div>

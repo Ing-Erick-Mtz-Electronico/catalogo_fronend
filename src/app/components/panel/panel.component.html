@@ -1,1 +1,154 @@
-<p>panel works!</p>
+<div class="container">
+    <p-tabView styleClass="tabview-custom">
+        <p-tabPanel>
+            <ng-template pTemplate="header">
+                <i class="pi pi-calendar"></i>
+                <span>Administrar Catalogo</span>
+            </ng-template>
+            <div class="btn btn-primary" (onClick)="displayDialog = true">
+                <i class="pi pi-plus"></i>
+                <span>Add</span>
+            </div>
+            <p-table [value]="ejemplares"
+                    responsiveLayout="stack" 
+                    [loading]="loadingTable" 
+                    [paginator]="true"
+                    [rows]="5"
+                    [showCurrentPageReport]="true"
+                    [tableStyle]="{ 'min-width': '50rem' }"
+                    currentPageReportTemplate="Rango {first} hasta {last} de {totalRecords} ejemplares"
+                    [rowsPerPageOptions]="[10, 25, 50]">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Titulo</th>
+                        <th>Tipo de Material</th>
+                        <th>Signatura</th>
+                        <th>Autor</th>
+                        <th>ISBN</th>
+                        <th>Link de Busqueda</th>
+                        <th>Imagen</th>
+                        <th>Fecha de publicado</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-ejemplar>
+                    <tr>
+                        <td>{{ ejemplar.titulo }}</td>
+                        <td>{{ ejemplar.tipoMaterial }}</td>
+                        <td>{{ ejemplar.signatura }}</td>
+                        <td>{{ ejemplar.autor }}</td>
+                        <td>{{ ejemplar.isbn }}</td>
+                        <td>{{ ejemplar.linkBusqueda }}</td>
+                        <td style="text-align: center;">
+                            <img src="{{azureStorageUrl}}{{ejemplar.imagen}}" style="max-height: 50px;">
+                        </td>
+                        <td>{{ ejemplar.fechaPublicado }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <pre>{{ejemplar | json}}</pre>
+            <p-dialog header="Header" [(visible)]="displayDialog" [style]="{width: '500px', background: 'white'}">
+                <div >
+                    <form #catalogForm = "ngForm" (ngSubmit)="onSubmit()" class="margin" novalidate>      
+    
+                        <div class="form-group">
+                            <label for="name" class="form-label">Nombre de Usuario</label>
+                            <input type="text" class="form-control" name="titulo" placeholder="Nombre del ejemplar" [(ngModel)]="ejemplar.titulo" #titulo="ngModel" required>  
+                            <div *ngIf ="titulo.invalid && (titulo.dirty || titulo.touched ||  catalogForm.submitted )">
+                            <label class="text-danger" >
+                                Es requerido
+                            </label>                       
+                            </div>        
+                        </div>
+                
+                        <div class="form-group">
+                            <label>Tipo de material</label>
+                            <input type="text" class="form-control" name="tipoMaterial" placeholder="Tipo de material" [(ngModel)]="ejemplar.tipoMaterial" #tipoMaterial="ngModel" required/>
+                            <div *ngIf ="tipoMaterial.invalid && (tipoMaterial.dirty || tipoMaterial.touched ||  catalogForm.submitted )">
+                            <label class="text-danger" >
+                                Es requerido
+                            </label>                       
+                            </div> 
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Signatura</label>
+                            <input type="text" class="form-control" name="signatura" placeholder="signatura" [(ngModel)]="ejemplar.signatura" #signatura="ngModel" required/>
+                            <div *ngIf ="signatura.invalid && (signatura.dirty || signatura.touched ||  catalogForm.submitted )">
+                                <label class="text-danger" >
+                                    Es requerido
+                                </label>                       
+                            </div> 
+                        </div> 
+                        <div class="form-group">
+                            <label>Autor</label>
+                            <input type="text" class="form-control" name="autor" placeholder="autor" [(ngModel)]="ejemplar.autor" #autor="ngModel" required/>
+                            <div *ngIf ="autor.invalid && (autor.dirty || autor.touched ||  catalogForm.submitted )">
+                                <label class="text-danger" >
+                                    Es requerido
+                                </label>                       
+                            </div> 
+                        </div>
+                        <div class="form-group">
+                            <label>ISBN</label>
+                            <input type="text" class="form-control" name="isbn" placeholder="isbn" [(ngModel)]="ejemplar.isbn" #isbn="ngModel" required/>
+                            <div *ngIf ="isbn.invalid && (isbn.dirty || isbn.touched ||  catalogForm.submitted )">
+                                <label class="text-danger" >
+                                    Es requerido
+                                </label>                       
+                            </div> 
+                        </div>
+                        <div class="form-group">
+                            <label>Link del recurso</label>
+                            <input type="url" class="form-control" name="linkBusqueda" placeholder="Link del recurso" [(ngModel)]="ejemplar.linkBusqueda" #linkBusqueda="ngModel" required/>
+                            <div *ngIf ="linkBusqueda.invalid && (linkBusqueda.dirty || linkBusqueda.touched ||  catalogForm.submitted )">
+                                <label class="text-danger" >
+                                    Es requerido
+                                </label>                       
+                            </div> 
+                        </div>
+                        <div class="form-group">
+                            <!--
+                            <label>Imagen</label>
+                            <input type="image" class="form-control" name="imagen" placeholder="Imagen" [(ngModel)]="ejemplar.imagen" #imagen="ngModel" required/>
+                            <div *ngIf ="imagen.invalid && (imagen.dirty || imagen.touched ||  catalogForm.submitted )">
+                                <label class="text-danger" >
+                                    Es requerido
+                                </label>                       
+                            </div>
+                        -->
+                            <label for="image">Image</label>
+                            <p-fileUpload name="image" accept="image/*" [auto]="true" [customUpload]="true" #imageFileUpload >
+                            </p-fileUpload>
+                             
+                            
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha de publicación</label>
+                            <input type="date" class="form-control" name="fechaPublicado" placeholder="Fecha de hoy" [(ngModel)]="ejemplar.fechaPublicado" #fechaPublicado="ngModel" required/>
+                            <div *ngIf ="fechaPublicado.invalid && (fechaPublicado.dirty || fechaPublicado.touched ||  catalogForm.submitted )">
+                                <label class="text-danger" >
+                                    Es requerido
+                                </label>                       
+                            </div> 
+                        </div>
+                        <input type="submit" class="btn btn-primary" value="Iniciar Sesión">
+                    
+                    </form>
+                </div>
+            </p-dialog>
+            
+        </p-tabPanel>
+
+        <p-tabPanel header="Header II">
+            <ng-template pTemplate="header">
+                <i class="pi pi-user"></i>
+                <span>Administar usuarios</span>
+            </ng-template>
+            <p>
+                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
+                ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
+            </p>
+        </p-tabPanel>
+    </p-tabView>  
+</div>
