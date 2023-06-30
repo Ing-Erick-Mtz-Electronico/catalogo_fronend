@@ -9,5 +9,5 @@ export interface IEjemplar
     isbn:string;
     linkBusqueda:string;
     imagen:string;
-    fechaPublicado:Date
+    fechaPublicado:string
 }

@@ -1,37 +1,27 @@
-<a href="/login">Iniciar sesión</a>
-
-<div class="container">
-    <img class="banner" src="assets/image/NOMBRE.png" alt="">
-</div>
 
 <div class="bodyCarrusel">
     <div class="textMasReciente">
         <h3>Títulos Recientemente subidos </h3>
     </div>
     <div class="containerCarrusel">
+        <div class="col"></div>
+        <div class="col-5" style="height: 340px;">
+            <p-carousel [value]="ejemplaresCarrousel" [numVisible]="3" [numScroll]="1" [circular]="true" [autoplayInterval]="3000" [responsiveOptions]="responsiveOptions">
+                <ng-template let-ejemplaresCarrousel pTemplate="item" >
+                    <div class="border-1 surface-border border-round m-2 text-center py-5 px-3" >
+                        <div >
+                            <a href="{{ejemplaresCarrousel.linkBusqueda}}">
+                                <img src="{{azureStorageUrl}}{{ejemplaresCarrousel.imagen}}" class="w-6 shadow-2 imageItem" />
+                            </a>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-carousel>
+        </div>
         
         <div class="col"></div>
-        <div id="carouselTarget" class="carousel slide" data-bs-ride="carousel" >
-            
-            <div class="carousel-inner">
-                <div class="carousel-item" data-bs-interval="1500" [ngClass]="{'active':item==0}" *ngFor="let item of [0,1,2,3,4,5,6,7,8,9,10]">
-                    <a href="/">
-                        <img src="assets/image/catalogo2.png" class="imageItem" alt="image">
-                    </a>
-                </div>
-                
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselTarget" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselTarget" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-        <div class="col"></div>
     </div>
+    
 </div>
 
 <div class="containerBody">
@@ -39,14 +29,14 @@
         <h3 class="titleAdquisicion">Todas nuestras adquisiciones literarias físicas </h3>
     </div>
     <ul class="listCatalog">
-        <li *ngFor="let item of items" class="itemList">
+        <li *ngFor="let ejemplar of ejemplares" class="itemList">
             
             <div class="cardPortada">
-                <a class="imagePortada" href="/">
-                    <img class="images" src="assets/image/catalogo.jpg" alt="image">
+                <a class="imagePortada" href="{{ejemplar.linkBusqueda}}">
+                    <img class="images" src="{{azureStorageUrl}}{{ejemplar.imagen}}" alt="image">
                     <div class="info">
-                        <h6 class="text"> Los vientos del liberalismo en el caribe : efectos, transformaciones e intercambios en la transición del siglo XVIII al XIX </h6>
-                        <h6 class="time">09/05/2023</h6>
+                        <h6 class="text"> {{ejemplar.titulo}} </h6>
+                        <h6 class="time">{{ejemplar.fechaPublicado.split('T')[0]}}</h6>
                     </div>
                 </a>
             </div>
@@ -54,25 +44,29 @@
                 <div class="labels">
                     <div class="values ">
                         <label>Autor:</label>
-                        <span class="autor"> Antonio Vidal Ortega, Raúl Román Romero, coordinadores Raúl Román Romero, coordinadores</span>
+                        <span class="autor"> {{ejemplar.autor}} </span>
                     </div>
                     <div class="values">
                         <label>Tipo:</label>
-                        <span> Libro</span>
+                        <span> {{ejemplar.tipoMaterial}} </span>
                     </div>
                     
                     <div class="values">
                         <label>Signatura:</label>
-                        <span> 869.3 S243b</span>
+                        <span> {{ejemplar.signatura}}</span>
                     </div>
                     
-                    <div class="values">
+                    <div class="values" *ngIf="ejemplar.tipoMaterial == 'Revista'">
+                        <label>ISSN:</label>
+                        <span> {{ejemplar.isbn}} </span>
+                    </div>
+                    <div class="values" *ngIf="ejemplar.tipoMaterial == 'Libro'">
                         <label>ISBN:</label>
-                        <span> 842040053X</span>
+                        <span> {{ejemplar.isbn}} </span>
                     </div>
                 </div>
                 <div class="texts botton"> 
-                    <a class="" href="https://unimagdalena.primo.exlibrisgroup.com/discovery/fulldisplay?docid=alma99804765007076&context=L&vid=57UMA_INST:UMA&lang=es&search_scope=FISICO&adaptor=Local%20Search%20Engine&tab=EnBiblioteca&query=any,contains,el%20manuscrito,AND&mode=advanced&pfilter=rtype,exact,books,AND&offset=0">
+                    <a class="" href="{{ejemplar.linkBusqueda}}">
                     Ver mas delalles
                     </a>
                 </div>

@@ -1,34 +1,32 @@
 <div class="container">
     <p-tabView styleClass="tabview-custom">
-        <p-tabPanel>
+        <p-tabPanel header="Administrar Catalogo">
+
             <ng-template pTemplate="header">
-                <i class="pi pi-calendar"></i>
                 <span>Administrar Catalogo</span>
             </ng-template>
-            <div class="btn btn-primary" (onClick)="displayDialog = true">
+
+            <button class="btn btn-outline-primary btnAdd" (click)="displayAdd()">
                 <i class="pi pi-plus"></i>
-                <span>Add</span>
-            </div>
-            <p-table [value]="ejemplares"
-                    responsiveLayout="stack" 
-                    [loading]="loadingTable" 
-                    [paginator]="true"
-                    [rows]="5"
-                    [showCurrentPageReport]="true"
-                    [tableStyle]="{ 'min-width': '50rem' }"
-                    currentPageReportTemplate="Rango {first} hasta {last} de {totalRecords} ejemplares"
-                    [rowsPerPageOptions]="[10, 25, 50]">
+                <span>  Agregar</span>
+            </button>
+
+            <p-table 
+                [value]="ejemplares" 
+                [tableStyle]="{'width': 'auto',
+                                'overflow': 'visible'}"
+                >
 
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>Titulo</th>
-                        <th>Tipo de Material</th>
-                        <th>Signatura</th>
-                        <th>Autor</th>
-                        <th>ISBN</th>
-                        <th>Link de Busqueda</th>
-                        <th>Imagen</th>
-                        <th>Fecha de publicado</th>
+                        <th style="width: 12%">Titulo</th>
+                        <th style="width: 12%">Tipo de Material</th>
+                        <th style="width: 12%">Signatura</th>
+                        <th style="width: 12%">Autor</th>
+                        <th style="width: 12%">ISBN - ISSN</th>
+                        <th style="width: 12%">Link de Busqueda</th>
+                        <th style="width: 12%">Fecha de publicado</th>
+                        <th style="width: 12%">Acción</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-ejemplar>
@@ -38,101 +36,123 @@
                         <td>{{ ejemplar.signatura }}</td>
                         <td>{{ ejemplar.autor }}</td>
                         <td>{{ ejemplar.isbn }}</td>
-                        <td>{{ ejemplar.linkBusqueda }}</td>
-                        <td style="text-align: center;">
-                            <img src="{{azureStorageUrl}}{{ejemplar.imagen}}" style="max-height: 50px;">
+                        <td ><a href="{{ ejemplar.linkBusqueda }}">Ver enlace</a></td>
+                        
+                        <td>{{ ejemplar.fechaPublicado.split('T')[0] }}</td>
+                        <td>
+                            <div class="buttonGroup">
+                                <div id="tooltip">
+                                    <span id="tooltipScren"><img src="{{azureStorageUrl}}{{ejemplar.imagen}}" style="max-height: 150px;"></span>
+                                    <button type="button" class="btn btn-outline-primary">
+                                        <i class="pi pi-eye"></i>
+                                    </button>
+                                </div>
+                                <div id="tooltipIcon" >
+                                    <button type="button" class="btn btn-outline-success" (click)="displayUpdate(ejemplar)">
+                                        <span id="tooltipText">Editar</span>
+                                        <i class="pi pi-pencil"></i>
+                                    </button>
+                                </div>
+                                <div id="tooltipIcon">
+                                    <button type="button" class="btn btn-outline-danger" (click)="displayDelete(ejemplar.id)">
+                                        <span id="tooltipText">Eliminar</span>
+                                        <i class="pi pi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
                         </td>
-                        <td>{{ ejemplar.fechaPublicado }}</td>
                     </tr>
                 </ng-template>
+                    
             </p-table>
-            <pre>{{ejemplar | json}}</pre>
-            <p-dialog header="Header" [(visible)]="displayDialog" [style]="{width: '500px', background: 'white'}">
+            <p-dialog [(visible)]="displayDialog" [style]="{width: '500px'}">
                 <div >
-                    <form #catalogForm = "ngForm" (ngSubmit)="onSubmit()" class="margin" novalidate>      
+                    <form #catalogForm = "ngForm" (ngSubmit)="onSubmit()">      
     
-                        <div class="form-group">
-                            <label for="name" class="form-label">Nombre de Usuario</label>
-                            <input type="text" class="form-control" name="titulo" placeholder="Nombre del ejemplar" [(ngModel)]="ejemplar.titulo" #titulo="ngModel" required>  
-                            <div *ngIf ="titulo.invalid && (titulo.dirty || titulo.touched ||  catalogForm.submitted )">
-                            <label class="text-danger" >
-                                Es requerido
-                            </label>                       
+                        <div class="mb-3 mt-3">
+                            <label for="nameEjemp" class="form-label">Nombre del Ejemplar</label>
+                            <input type="text" class="form-control" name="nameEjemp" placeholder="Nombre del ejemplar" [(ngModel)]="ejemplar.titulo" #titulo="ngModel" required>  
+                            <div [hidden]="titulo.valid || titulo.pristine">
+                                <label class="text-danger" >
+                                    Es requerido
+                                </label>                       
                             </div>        
                         </div>
                 
-                        <div class="form-group">
-                            <label>Tipo de material</label>
-                            <input type="text" class="form-control" name="tipoMaterial" placeholder="Tipo de material" [(ngModel)]="ejemplar.tipoMaterial" #tipoMaterial="ngModel" required/>
-                            <div *ngIf ="tipoMaterial.invalid && (tipoMaterial.dirty || tipoMaterial.touched ||  catalogForm.submitted )">
-                            <label class="text-danger" >
-                                Es requerido
-                            </label>                       
-                            </div> 
+                        <div class="mb-3 mt-3">
+                            <label for="tipoMaterial" class="form-label">Tipo de material</label>
+                            <select name="tipoMaterial" class="form-select form-select-sm" [(ngModel)] = "ejemplar.tipoMaterial" #tipoMaterial="ngModel" required>
+                                <option value="Libro">Libro</option>
+                                <option value="Revista">Revista</option>
+                            </select>
+                            <div [hidden]="tipoMaterial.valid || tipoMaterial.pristine">
+                                <label class="text-danger" >
+                                    Es requerido
+                                </label>                       
+                            </div>   
                         </div>
                         
-                        <div class="form-group">
-                            <label>Signatura</label>
-                            <input type="text" class="form-control" name="signatura" placeholder="signatura" [(ngModel)]="ejemplar.signatura" #signatura="ngModel" required/>
-                            <div *ngIf ="signatura.invalid && (signatura.dirty || signatura.touched ||  catalogForm.submitted )">
+                        <div class="mb-3 mt-3">
+                            <label for="signatura" class="form-label">Signatura</label>
+                            <input type="text" class="form-control" name="signatura" placeholder="Signatura" [(ngModel)]="ejemplar.signatura" #signatura="ngModel" required/>
+                            <div [hidden]="signatura.valid || signatura.pristine">
                                 <label class="text-danger" >
                                     Es requerido
                                 </label>                       
                             </div> 
                         </div> 
-                        <div class="form-group">
-                            <label>Autor</label>
-                            <input type="text" class="form-control" name="autor" placeholder="autor" [(ngModel)]="ejemplar.autor" #autor="ngModel" required/>
-                            <div *ngIf ="autor.invalid && (autor.dirty || autor.touched ||  catalogForm.submitted )">
+                        <div class="mb-3 mt-3">
+                            <label for="autor" class="form-label">Autor</label>
+                            <input type="text" class="form-control" name="autor" placeholder="Autor" [(ngModel)]="ejemplar.autor" #autor="ngModel" required/>
+                            <div [hidden]="autor.valid || autor.pristine">
                                 <label class="text-danger" >
                                     Es requerido
                                 </label>                       
                             </div> 
                         </div>
-                        <div class="form-group">
-                            <label>ISBN</label>
-                            <input type="text" class="form-control" name="isbn" placeholder="isbn" [(ngModel)]="ejemplar.isbn" #isbn="ngModel" required/>
-                            <div *ngIf ="isbn.invalid && (isbn.dirty || isbn.touched ||  catalogForm.submitted )">
+                        <div class="mb-3 mt-3" *ngIf="ejemplar.tipoMaterial == 'Libro'">
+                            <label for="isbn" class="form-label">ISBN</label>
+                            <input type="text" class="form-control" name="isbn" placeholder="ISBN" [(ngModel)]="ejemplar.isbn" #isbn="ngModel" required/>
+                            <div [hidden]="isbn.valid || isbn.pristine">
                                 <label class="text-danger" >
                                     Es requerido
                                 </label>                       
                             </div> 
                         </div>
-                        <div class="form-group">
-                            <label>Link del recurso</label>
+                        <div class="mb-3 mt-3" *ngIf="ejemplar.tipoMaterial == 'Revista'">
+                            <label for="isbn" class="form-label">ISSN</label>
+                            <input type="text" class="form-control" name="isbn" placeholder="ISSN" [(ngModel)]="ejemplar.isbn" #isbn="ngModel" required/>
+                            <div [hidden]="isbn.valid || isbn.pristine">
+                                <label class="text-danger" >
+                                    Es requerido
+                                </label>                       
+                            </div> 
+                        </div>
+                        <div class="mb-3 mt-3">
+                            <label for="linkBusqueda" class="form-label">Link del recurso</label>
                             <input type="url" class="form-control" name="linkBusqueda" placeholder="Link del recurso" [(ngModel)]="ejemplar.linkBusqueda" #linkBusqueda="ngModel" required/>
-                            <div *ngIf ="linkBusqueda.invalid && (linkBusqueda.dirty || linkBusqueda.touched ||  catalogForm.submitted )">
+                            <div [hidden]="linkBusqueda.valid || linkBusqueda.pristine">
                                 <label class="text-danger" >
                                     Es requerido
                                 </label>                       
                             </div> 
                         </div>
-                        <div class="form-group">
-                            <!--
-                            <label>Imagen</label>
-                            <input type="image" class="form-control" name="imagen" placeholder="Imagen" [(ngModel)]="ejemplar.imagen" #imagen="ngModel" required/>
-                            <div *ngIf ="imagen.invalid && (imagen.dirty || imagen.touched ||  catalogForm.submitted )">
-                                <label class="text-danger" >
-                                    Es requerido
-                                </label>                       
-                            </div>
-                        -->
-                            <label for="image">Image</label>
-                            <p-fileUpload name="image" accept="image/*" [auto]="true" [customUpload]="true" #imageFileUpload >
-                            </p-fileUpload>
-                             
-                            
-                        </div>
-                        <div class="form-group">
-                            <label>Fecha de publicación</label>
+                        <div class="mb-3 mt-3">
+                            <label for="fechaPublicado" class="form-label">Fecha de publicación</label>
                             <input type="date" class="form-control" name="fechaPublicado" placeholder="Fecha de hoy" [(ngModel)]="ejemplar.fechaPublicado" #fechaPublicado="ngModel" required/>
-                            <div *ngIf ="fechaPublicado.invalid && (fechaPublicado.dirty || fechaPublicado.touched ||  catalogForm.submitted )">
+                            <div [hidden]="fechaPublicado.valid || fechaPublicado.pristine">
                                 <label class="text-danger" >
                                     Es requerido
                                 </label>                       
                             </div> 
                         </div>
-                        <input type="submit" class="btn btn-primary" value="Iniciar Sesión">
+                        <div class="mb-3 mt-3">
+                            <p-fileUpload name="image" accept="image/*" [previewWidth] ="100" chooseLabel="  Cargar imagen" [multiple]="false" [auto]="true" [customUpload]="true" #imageFileUpload>
+                            </p-fileUpload>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" [disabled]="catalogForm.invalid">Enviar</button>
                     
                     </form>
                 </div>
@@ -140,15 +160,67 @@
             
         </p-tabPanel>
 
-        <p-tabPanel header="Header II">
+        <p-tabPanel header="Header II" *ngIf="tabAdmin">
             <ng-template pTemplate="header">
                 <i class="pi pi-user"></i>
-                <span>Administar usuarios</span>
+                <span>  Administar usuarios</span>
             </ng-template>
-            <p>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
-                ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
-            </p>
+            <button class="btn btn-outline-primary btnAdd" (click)="addUser()">
+                <i class="pi pi-plus"></i>
+                <span>  Agregar</span>
+            </button>
+            <p-table 
+                [value]="users"
+                [tableStyle]="{'min-width': '30rem', 'overflow': 'visible'}">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width:25%">Identificador</th>
+                        <th style="width:25%">Email</th>
+                        <th style="width:25%">Rol</th>
+                        <th style="width:25%">Acción</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-user>
+                    <tr>
+                        <td> {{user.userName}} </td>
+                        <td> {{user.email}} </td>
+                        <td> {{user.state==0 ? 'Administrador':'Operador'}} </td>
+                        <td>
+                            <div class="buttonGroup">
+                                <div id="tooltipIcon">
+                                    <button type="button" class="btn btn-outline-success" (click)="updateUser(user)">
+                                        <span id="tooltipText">Editar</span>
+                                        <i class="pi pi-pencil"></i>
+                                    </button>
+                                </div>
+                                <div id="tooltipIcon">
+                                    <button type="button" class="btn btn-outline-danger" (click)="deleteUser(user.id)">
+                                        <span id="tooltipText">Eliminar</span>
+                                        <i class="pi pi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <p-dialog [(visible)]="displayDialogUser" [style]="{background: 'white'}">
+                <form #userForm = "ngForm" (ngSubmit)="onSubmitUser()">
+                    <div class="mb-3 mt-3">
+                        <label for="userName" class="form-label">ID del usuario</label>
+                        <input type="text" class="form-control" name="userName" placeholder="Usuario Institucional" [(ngModel)]="user.userName" [disabled]="disableVisible">          
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label for="state" class="form-label">Rol</label>
+                        <select name="state" class="form-select form-select-sm" [(ngModel)] = "user.state">
+                            <option value="0">Administrador</option>
+                            <option value="1">Operador</option>
+                        </select>   
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </form>
+            </p-dialog>
         </p-tabPanel>
     </p-tabView>  
 </div>

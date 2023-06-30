@@ -8,5 +8,5 @@ export interface IEjemplarForm
     isbn:string;
     linkBusqueda:string;
     imagen:File;
-    fechaPublicado:Date
+    fechaPublicado:string
 }

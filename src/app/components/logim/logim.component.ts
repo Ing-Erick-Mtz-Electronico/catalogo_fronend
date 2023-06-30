@@ -23,9 +23,8 @@ export class LogimComponent {
           this.routeaux.navigate(['panel']);
         },
         error: error=>{
-          if (error.error.errorDetail) {
-            this.error = error.error.errorDetail;
-          }
+          this.error = error.error.split('\n')[0].split(':')[1];
+          
         }
       })
     }

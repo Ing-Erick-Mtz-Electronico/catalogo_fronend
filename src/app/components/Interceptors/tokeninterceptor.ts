@@ -18,7 +18,7 @@ export class TokenInterceptor implements HttpInterceptor
         
         const request = req.clone({
             headers: new HttpHeaders({
-                'Content-Type': 'application/json',
+                //'Content-Type': 'application/json',
                 Authorization: `Bearer ${this.jwtHelper.tokenGetter()}`
               })
         });

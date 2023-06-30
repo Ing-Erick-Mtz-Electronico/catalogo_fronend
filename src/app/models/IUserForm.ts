@@ -1,6 +1,5 @@
-export interface IUser
+export interface IUserForm
 {
-    id:number;
     userName:string;
     email:string;
     state:number

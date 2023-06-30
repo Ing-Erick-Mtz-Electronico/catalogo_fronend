@@ -8,8 +8,12 @@
         
     <a href="https://www.unimagdalena.edu.co/Publico/Cuidadano" class="btn btn-xs btn-sm btn-link">Ciudadano</a>  
     <a href="https://www.unimagdalena.edu.co/Publico/EnlacesAcceso" class="btn btn-xs btn-link">Mapa de sitio</a>
-        
-    </div>
+    
+    <a *ngIf="!userService.IsLogged()" href="/login" class="btn btn-xs btn-link hidden-xs" title="Iniciar sesión"> <i class="fa-solid fa-user icon"></i> <span class="sr-only">Iniciar sesión</span>Iniciar Sesion</a>
+
+    <a  *ngIf="userService.IsLogged()" (click)="CloseSession()" class="btn btn-xs btn-link hidden-xs" title="Cerrar Sesion"> <i class="fa-solid fa-user icon"></i> <span class="sr-only">Cerrar Sesion</span>Cerrar Sesion</a>    
+    
+  </div>
     <div class="nav-bar">
         <div class="brand">
             <a href="/">
@@ -36,9 +40,10 @@
                 </li>            
             </ul>
         </nav>
-        <div class="brand">
+        <div class="brand logo-biblio">
           <a href="/">
-            <img src="/assets/image/LOGO BIBLIOTECA.png" alt="">
+            <img class="banner" style="width: 50%; height: 30%;" src="assets/image/NOMBRE.png" alt="">
+            <img class="banner" src="/assets/image/LOGO BIBLIOTECA.png" alt="">
           </a>
         </div>
     </div>

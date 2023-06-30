@@ -1,6 +1,6 @@
   <div style="margin-top:20px;" class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
       <h2>Inicio de Sesión</h2>
 
       <div class="alert alert-danger" *ngIf="error != '' ">        
@@ -8,9 +8,9 @@
       </div>
       <form #loginForm = "ngForm" (ngSubmit)="login(loginForm)" class="margin" novalidate>      
 
-        <div class="form-group">
+        <div class="mb-3 mt-3">
           <label for="name" class="form-label">Nombre de Usuario</label>
-          <input type="text" class="form-control" name="username" placeholder="Nombre de Usuario" [(ngModel)]="user.username" #username="ngModel" required>  
+          <input type="text" class="form-control" name="username" placeholder="Solo el ID Institucional" [(ngModel)]="user.username" #username="ngModel" required>  
           <div *ngIf ="username.invalid && (username.dirty || username.touched ||  loginForm.submitted )">
             <label class="text-danger" >
                 El nombre es requerido
@@ -18,7 +18,7 @@
           </div>        
         </div>
 
-        <div class="form-group">
+        <div class="mb-3 mt-3">
           <label>Contraseña</label>
           <input type="password" class="form-control" name="password" placeholder="Contraseña" [(ngModel)]="user.password" #password="ngModel" required/>
           <div *ngIf ="password.invalid && (password.dirty || password.touched ||  loginForm.submitted )">
@@ -33,5 +33,5 @@
       </form>
   
     </div>
-    <div class="col-md-2"></div>
+    <div class="col-md-4"></div>
   </div> 

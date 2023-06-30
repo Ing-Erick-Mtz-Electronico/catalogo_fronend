@@ -18,6 +18,7 @@ import { TableModule } from 'primeng/table';
 import { FileUploadModule } from 'primeng/fileupload';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogModule } from 'primeng/dialog';
+import { CarouselModule } from 'primeng/carousel';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { DialogModule } from 'primeng/dialog';
     FileUploadModule,
     BrowserAnimationsModule,
     DialogModule,
+    CarouselModule,
     HttpClientModule,
     JwtModule.forRoot({
       config: {

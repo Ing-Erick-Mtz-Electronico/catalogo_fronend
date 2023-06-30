@@ -1,1 +1,74 @@
 @import "primeicons/primeicons.css";
+
+
+.btnAdd{
+    margin: 15px;
+}
+.buttonGroup{
+    width: 80%;
+    height: 100%;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+#tooltip{
+    position: relative;
+    cursor: pointer;
+}
+#tooltipScren{
+    position:absolute;
+    left: 30%;
+    transform: translateX(-110%);
+    background-color: aliceblue;
+    padding: 10px 15px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+#tooltipScren::before{
+    position: absolute;
+    left: 30%;
+    transform: translateX(-110%);
+}
+#tooltip:hover #tooltipScren{
+    visibility: visible;
+    opacity: 1;
+    top: -80%;
+    position: absolute;
+}
+
+#tooltipIcon{
+    position: relative;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+#tooltipText{
+    font-size: 10px;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    background-color: #000;
+    color: #fff;
+    white-space: nowrap;
+    padding: 5px 10px;
+    border-radius: 7px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+#tooltipText::before{
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    border: 15px solid;
+    border-color: #000 #0000 #0000 #0000;
+}
+#tooltipIcon:hover #tooltipText{
+    top: -80%;
+    visibility: visible;
+    opacity: 1;
+}

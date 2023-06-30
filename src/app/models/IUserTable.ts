@@ -1,7 +1,7 @@
-export interface IUser
+export interface IUserTable 
 {
     id:number;
     userName:string;
     email:string;
-    state:number
+    state:string
 }

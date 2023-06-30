@@ -1,4 +1,4 @@
-
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700|Roboto:400,700');
 
 .containerBody{
     width: 100%;
@@ -132,7 +132,7 @@
 
 .containerCarrusel{
     width: 100%;
-    height: 270px;
+    height: 340px;
     margin-top: 10px;
     display: flex;
 }
@@ -147,22 +147,13 @@
     height: 100%;
 }
 
-
-.carousel-control-prev{
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-}
-
-.carousel-control-next{
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-}
-
 .carousel-item{
     width: 100%;
     height: 100%;
 }
 .imageItem{
-    width: 100%;
-    height: 100%;
+    width: 122px;
+    height: 180px;
 }
 
 /*titulo adquisiciones*/
@@ -176,11 +167,11 @@
 }
 
 .titleAdquisicion{
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: 'Roboto';
 }
 
 .textMasReciente{
-    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-family: 'Roboto';
 }
 .container{
     text-align: center;
@@ -192,3 +183,9 @@
 .banner{
     width: 20%;
 }
+
+@media only screen and (max-width: 600px) {
+    .col-5 {
+      width: 80%;
+    }
+  }
